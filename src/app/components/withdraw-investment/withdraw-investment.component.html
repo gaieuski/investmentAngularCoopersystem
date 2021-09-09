@@ -1,0 +1,62 @@
+<ng-container *ngIf="investments">
+    <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light">
+        <h1 class="navbar-brand">Regaste</h1>
+    </nav>
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <h4>Dados do investimento</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Saldo total disponível</th>
+                        <th scope="col">Valor total a resgatar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td>{{investments.nome}}</td>
+                    <td>{{investments.saldoTotalDisponivel | currency}}</td>
+                    <td>{{valTot | currency}}</td>
+                </tbody>
+            </table>
+            <h4>Regaste do Seu Jeito</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Ação</th>
+                        <th scope="col">Valor total</th>
+                        <th scope="col">Valor a resgatar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor = "let withdrawInvestment of investments.acoes; let i=index">
+                    <td>{{withdrawInvestment.nome}}</td>
+                    <td>{{percentVal[i] | currency}}</td>
+                    <td>
+                        <div class="form-group">
+                            <span class="input-group-text-sm">R$: </span>
+                            <input class="form-control-md" id="withdrawValue" type="number" (focusout)="sumValue($event, withdrawInvestment.id)">
+                        </div>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-success me-md-2" (click)="open(content)">Confirmar retirada</button>
+            </div>
+        </div>
+    </div> 
+</ng-container>
+
+<ng-template #content>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalConfirm">Confirmar retirada</h4>
+    </div>
+    <div class="modal-body">
+        <p>Deseja realmente resgatar o valor de {{valTot | currency}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()" >Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="confirmWithdraw()">Confirmar</button>
+    </div>
+</ng-template>
